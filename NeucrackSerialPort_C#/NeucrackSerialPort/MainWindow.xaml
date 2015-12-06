@@ -1,0 +1,37 @@
+﻿<Window x:Class="NeucrackSerialPort.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="552.083" Width="933">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="203*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel x:Name="SettingPanel" HorizontalAlignment="Left" Height="521" LastChildFill="False" VerticalAlignment="Top" Width="126">
+            <Grid Margin="0,0,0,-174" >
+                <Label x:Name="LabelSerialPort" Content="串口号" HorizontalAlignment="Left" Margin="0,19,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="SerialPort" HorizontalAlignment="Left" Margin="51,23,0,0" VerticalAlignment="Top" Width="71"/>
+                <Label x:Name="LabelSerialParity" Content="校验位" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="SerialParity" HorizontalAlignment="Left" Margin="51,128,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5"/>
+                <Label x:Name="LabelSerialBaud" Content="波特率" HorizontalAlignment="Left" Margin="0,49,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="SerialBaud" HorizontalAlignment="Left" Margin="51,49,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5"/>
+                <ComboBox x:Name="SerialDataLength" HorizontalAlignment="Left" Margin="51,75,0,0" VerticalAlignment="Top" Width="71"/>
+                <Label x:Name="LabelSerialDataLength" Content="数据位" HorizontalAlignment="Left" Margin="0,75,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="SerialStopBit" HorizontalAlignment="Left" Margin="51,102,0,0" VerticalAlignment="Top" Width="71"/>
+                <Label x:Name="LabelSerialStopBit" Content="停止位" HorizontalAlignment="Left" Margin="0,102,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="DisplayPanel" HorizontalAlignment="Left" Height="511" LastChildFill="False" Margin="131,0,0,0" VerticalAlignment="Top" Width="794" Grid.ColumnSpan="2">
+            <Grid Height="511" VerticalAlignment="Top" Width="794">
+                <Button x:Name="ButtonHideSettingpanel" Content="&lt;&lt;" Height="26" Margin="0,0,760,485" VerticalAlignment="Bottom" Width="34" Click="Button_HideSettingPanel"/>
+                <Button x:Name="SerialOpen" Content="打开串口" HorizontalAlignment="Left" Margin="107,26,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="SerialPause" Content="暂停接收" HorizontalAlignment="Left" Margin="192,26,0,0" VerticalAlignment="Top" Width="76"/>
+                <Button x:Name="ClearReceiveBox" Content="清空接收区" HorizontalAlignment="Left" Margin="294,26,0,0" VerticalAlignment="Top" Width="74"/>
+                <TextBox x:Name="ReceiveBox" HorizontalAlignment="Left" Height="276" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="794"/>
+            </Grid>
+
+        </DockPanel>
+
+    </Grid>
+</Window>
