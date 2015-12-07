@@ -1,37 +1,113 @@
 ﻿<Window x:Class="NeucrackSerialPort.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="552.083" Width="933">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*"/>
-            <ColumnDefinition Width="203*"/>
-        </Grid.ColumnDefinitions>
+        Title="MainWindow"     Height="652" Width="900" MinWidth="400" MinHeight="300">
 
-        <DockPanel x:Name="SettingPanel" HorizontalAlignment="Left" Height="521" LastChildFill="False" VerticalAlignment="Top" Width="126">
-            <Grid Margin="0,0,0,-174" >
-                <Label x:Name="LabelSerialPort" Content="串口号" HorizontalAlignment="Left" Margin="0,19,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="SerialPort" HorizontalAlignment="Left" Margin="51,23,0,0" VerticalAlignment="Top" Width="71"/>
-                <Label x:Name="LabelSerialParity" Content="校验位" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="SerialParity" HorizontalAlignment="Left" Margin="51,128,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5"/>
-                <Label x:Name="LabelSerialBaud" Content="波特率" HorizontalAlignment="Left" Margin="0,49,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="SerialBaud" HorizontalAlignment="Left" Margin="51,49,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5"/>
-                <ComboBox x:Name="SerialDataLength" HorizontalAlignment="Left" Margin="51,75,0,0" VerticalAlignment="Top" Width="71"/>
-                <Label x:Name="LabelSerialDataLength" Content="数据位" HorizontalAlignment="Left" Margin="0,75,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="SerialStopBit" HorizontalAlignment="Left" Margin="51,102,0,0" VerticalAlignment="Top" Width="71"/>
-                <Label x:Name="LabelSerialStopBit" Content="停止位" HorizontalAlignment="Left" Margin="0,102,0,0" VerticalAlignment="Top"/>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition   Width="60" >
+
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="80">
+
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                    <RowDefinition>
+
+                    </RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Margin="2" Content="串口号"/>
+                <Label Grid.Row="1" Grid.Column="0" Margin="2" Content="波特率"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="2" Content="数据位"/>
+                <Label Grid.Row="3" Grid.Column="0" Margin="2" Content="校验位"/>
+                <Label Grid.Row="4" Grid.Column="0" Margin="2" Content="停止位"/>
+                <Label Grid.Row="5" Grid.Column="0" Margin="2" Content="流控"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" Margin="2"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="2"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="2"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" Margin="2"/>
+                <ComboBox Grid.Row="5" Grid.Column="1" Margin="2"/>
+
             </Grid>
-        </DockPanel>
-        <DockPanel x:Name="DisplayPanel" HorizontalAlignment="Left" Height="511" LastChildFill="False" Margin="131,0,0,0" VerticalAlignment="Top" Width="794" Grid.ColumnSpan="2">
-            <Grid Height="511" VerticalAlignment="Top" Width="794">
-                <Button x:Name="ButtonHideSettingpanel" Content="&lt;&lt;" Height="26" Margin="0,0,760,485" VerticalAlignment="Bottom" Width="34" Click="Button_HideSettingPanel"/>
-                <Button x:Name="SerialOpen" Content="打开串口" HorizontalAlignment="Left" Margin="107,26,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="SerialPause" Content="暂停接收" HorizontalAlignment="Left" Margin="192,26,0,0" VerticalAlignment="Top" Width="76"/>
-                <Button x:Name="ClearReceiveBox" Content="清空接收区" HorizontalAlignment="Left" Margin="294,26,0,0" VerticalAlignment="Top" Width="74"/>
-                <TextBox x:Name="ReceiveBox" HorizontalAlignment="Left" Height="276" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="794"/>
+            <Button Margin="5" Height="35">打开</Button>
+            <Button Margin="5" Height="35">暂停接收</Button>
+            <Label Content="-------接收设置--------"></Label>
+            <StackPanel Orientation="Vertical">
+                <CheckBox Content="十六进制显示" Margin="2"></CheckBox>
+                <CheckBox Content="显示接收时间" Margin="2"></CheckBox>
+                <CheckBox Content="接收转向文件" Margin="2"></CheckBox>
+            </StackPanel>
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <CheckBox Grid.Column="0" Grid.Row="0" Content="自动换行" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="500" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                <Label Grid.Column="2" Grid.Row="0" Content="ms"></Label>
             </Grid>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Height="30">存到文件</Button>
+                <Button Margin="5" Height="30">清除显示</Button>
+            </StackPanel>
+            <Label>-------发送设置--------</Label>
+            <CheckBox Content="启用文件数据源" HorizontalAlignment="Left" Margin="10,2,2,2" VerticalAlignment="Center"></CheckBox>
+            <CheckBox Content="自动发送附加位" HorizontalAlignment="Left" Margin="10,2,2,2" VerticalAlignment="Center"></CheckBox>
+            <CheckBox Content="十六进制发送" HorizontalAlignment="Left" Margin="10,2,2,2" VerticalAlignment="Center"></CheckBox>
+            <CheckBox Content="数据流循环发送" HorizontalAlignment="Left" Margin="10,2,2,2" VerticalAlignment="Center"></CheckBox>
+            <Grid Margin="10,2,2,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="34*"></ColumnDefinition>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="循环时间" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="500" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                <Label Grid.Column="2" Grid.Row="0" Content="ms"></Label>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Height="30">载入文件</Button>
+                <Button Margin="5" Height="30">清除发送区</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>状态：</Label>
+                <Label>未连接</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>已发:</Label>
+                <Label>0</Label>
+                <Label>已收:</Label>
+                <Label>0</Label>
+            </StackPanel>
+        </StackPanel>
 
-        </DockPanel>
-
-    </Grid>
+    </StackPanel>
 </Window>
