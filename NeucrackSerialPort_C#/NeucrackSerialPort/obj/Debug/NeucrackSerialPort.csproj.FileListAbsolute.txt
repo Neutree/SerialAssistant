@@ -24,3 +24,4 @@ F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Debug\NeucrackSerialPort.csproj.GenerateResource.Cache
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Debug\NeucrackSerialPort_MarkupCompile.lref
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Debug\NeucrackSerialPort.csprojResolveAssemblyReference.cache
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Debug\GeneratedInternalTypeHelper.g.cs

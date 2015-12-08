@@ -102,7 +102,21 @@ namespace NeucrackSerialPort.model
         {
             return GetHarewareInfo(HardwareEnum.Win32_PnPEntity, "Name");
         }
+        /// <summary>
+        /// 接收数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public string ReceiveDataUpdate(byte[] data)
+        {
+            
+            string str = null;
 
+           
+            str = Encoding.ASCII.GetString(data);
+           
+            return str;
+        }
 
         /// <summary>
         /// Get the system devices information with windows api.

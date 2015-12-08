@@ -39,6 +39,7 @@
                         <ComboBoxItem>38400</ComboBoxItem>
                         <ComboBoxItem>115200</ComboBoxItem>
                         <ComboBoxItem>Custom</ComboBoxItem>
+
                     </ComboBox>
                     <ComboBox Name="SerialDataNum"  Grid.Row="2" Grid.Column="1" Margin="2" SelectedIndex="3">
                         <ComboBoxItem>5</ComboBoxItem>
@@ -67,10 +68,24 @@
 
                 </Grid>
                 <Button Name="ButtonOpen" Margin="5" Height="35" Content="打开" Click="ButtonOpen_Click"/>
-                <Button Name="ButtonPause" Margin="5" Height="35" Content="暂停接收"/>
+                <ToggleButton Name="ButtonPause" IsChecked="{Binding IsStop, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Margin="5" Height="35" >
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="继续接收" ></Setter>
+                                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content" Value="暂停接收" ></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
                 <Label Content="-------接收设置--------"/>
                 <StackPanel Orientation="Vertical">
-                    <CheckBox Name="CheckboxHexDisplay" Content="十六进制显示" Margin="2"/>
+                    <CheckBox Name="CheckboxHexDisplay" IsChecked="{Binding Port.IsHexData}" Content="十六进制显示" Margin="2"/>
                     <CheckBox Name="CheckboxShowTime" Content="显示接收时间" Margin="2"/>
                     <CheckBox Name="CheckboxPutToFile" Content="接收转向文件" Margin="2"/>
                 </StackPanel>
@@ -90,7 +105,7 @@
                 </Grid>
                 <StackPanel Orientation="Horizontal">
                     <Button Name="ButtonSaveToFile" Margin="5" Height="30" Content="存到文件"/>
-                    <Button Name="ButtonClearReceivedArea" Margin="5" Height="30" Content="清除显示"/>
+                    <Button Name="ButtonClearReceivedArea" Margin="5" Height="30" Content="清除显示" Click="ButtonClearReceivedArea_Click"/>
                 </StackPanel>
                 <Label Content="-------发送设置--------"/>
                 <CheckBox Name="CheckboxUseFileSource" Content="启用文件数据源" HorizontalAlignment="Left" Margin="10,2,2,2" VerticalAlignment="Center"/>
@@ -120,25 +135,25 @@
 
             <!--接收显示区域-->
             <StackPanel x:Name="displayPanel">
-                <TextBox Name="InputReceivedDataArea" Height="313" Margin="10"/>
+                <RichTextBox x:Name="InputReceivedDataArea" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="313" Margin="10"/>
                 <Grid Margin="10,3,10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Name="InputSendDataArea" Grid.Column="0" Margin="3" />
+                    <TextBox x:Name="InputSendDataArea" Grid.Column="0" Margin="3" />
                     <StackPanel Grid.Column="1" Orientation="Vertical">
-                        <Button Name="ButtonSendData" Content="发送" Width="40" Height="40" Margin="3,3,0,5"/>
-                        <Button Name="ButtonSaveSendData" Height="20" Margin="3,3,0,5" Width="40">保存</Button>
+                        <Button x:Name="ButtonSendData" Content="发送" Width="40" Height="40" Margin="3,3,0,5"/>
+                        <Button x:Name="ButtonSaveSendData" Height="20" Margin="3,3,0,5" Width="40" Content="保存"/>
                     </StackPanel>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox Name="SavedDataList" Grid.Column="0" Margin="15,0,2,0" MinWidth="60"/>
-                    <Button Name="ButtonClearOneSavedData" Grid.Column="1" MinWidth="     60" Margin="3,2,16,2">清除这条</Button>
+                    <ComboBox x:Name="SavedDataList" Grid.Column="0" Margin="15,0,2,0" MinWidth="60"/>
+                    <Button x:Name="ButtonClearOneSavedData" Grid.Column="1" MinWidth="     60" Margin="3,2,16,2" Content="清除这条"/>
                 </Grid>
             </StackPanel>
             <!--接收显示区域完毕-->
@@ -161,10 +176,10 @@
             <StackPanel Grid.Column="1" Orientation="Horizontal" >
                 <Label Content="已发:"/>
                 <Label Name="SerialSendDataCount" Content="0"/>
-                <Label Name="SerialReceivedDataCount" Content="已收:"/>
-                <Label Content="0"/>
+                <Label  Content="已收:"/>
+                <Label Name="SerialReceivedDataCount" Content="0"/>
             </StackPanel>
-            <Button Name="ButtonResetSerialDataCount" Grid.Column="2" HorizontalAlignment="Right" Content="复位计数" Margin="0,1,5,1" Width="52"/>
+            <Button Name="ButtonResetSerialDataCount" Grid.Column="2" HorizontalAlignment="Right" Content="复位计数" Margin="0,0,5,1" Width="52" Height="23" VerticalAlignment="Bottom" Click="ButtonResetSerialDataCount_Click"/>
         </Grid>
         <!--状态显示区域完毕-->
     </Grid>

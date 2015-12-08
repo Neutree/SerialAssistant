@@ -1,0 +1,14 @@
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\bin\Release\NeucrackSerialPort.exe.config
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\bin\Release\NeucrackSerialPort.exe
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\bin\Release\NeucrackSerialPort.pdb
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\MainWindow.g.cs
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\App.g.cs
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\GeneratedInternalTypeHelper.g.cs
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort_MarkupCompile.cache
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort_MarkupCompile.lref
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\MainWindow.baml
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.g.resources
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.Properties.Resources.resources
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.csproj.GenerateResource.Cache
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.exe
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.pdb
