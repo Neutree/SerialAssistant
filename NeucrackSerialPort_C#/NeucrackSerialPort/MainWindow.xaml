@@ -33,14 +33,40 @@
                     <Label Grid.Row="4" Grid.Column="0" Margin="2" Content="停止位"/>
                     <Label Grid.Row="5" Grid.Column="0" Margin="2" Content="流控"/>
                     <ComboBox Name="SerialPort" Grid.Row="0" Grid.Column="1" Margin="2"/>
-                    <ComboBox Name="SerialBaud" Grid.Row="1" Grid.Column="1" Margin="2"/>
-                    <ComboBox Name="SerialDataNum" Grid.Row="2" Grid.Column="1" Margin="2"/>
-                    <ComboBox Name="SerialParity"  Grid.Row="3" Grid.Column="1" Margin="2"/>
-                    <ComboBox Name="SerialStop" Grid.Row="4" Grid.Column="1" Margin="2"/>
-                    <ComboBox Name="SerialFlowControl" Grid.Row="5" Grid.Column="1" Margin="2"/>
+                    <ComboBox Name="SerialBaud" SelectedIndex="0" Grid.Row="1" Grid.Column="1" Margin="2">
+                        <ComboBoxItem>9600</ComboBoxItem>
+                        <ComboBoxItem>19200</ComboBoxItem>
+                        <ComboBoxItem>38400</ComboBoxItem>
+                        <ComboBoxItem>115200</ComboBoxItem>
+                        <ComboBoxItem>Custom</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox Name="SerialDataNum"  Grid.Row="2" Grid.Column="1" Margin="2" SelectedIndex="3">
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>6</ComboBoxItem>
+                        <ComboBoxItem>7</ComboBoxItem>
+                        <ComboBoxItem>8</ComboBoxItem>
+                        <ComboBoxItem>9</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox Name="SerialParity" SelectedIndex="0"  Grid.Row="3" Grid.Column="1" Margin="2">
+                        <ComboBoxItem>None</ComboBoxItem>
+                        <ComboBoxItem>Even</ComboBoxItem>
+                        <ComboBoxItem>Odd</ComboBoxItem>
+                        <ComboBoxItem>Mark</ComboBoxItem>
+                        <ComboBoxItem>Space</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox Name="SerialStop" SelectedIndex="0" Grid.Row="4" Grid.Column="1" Margin="2">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>1.5</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox Name="SerialFlowControl" SelectedIndex="0" Grid.Row="5" Grid.Column="1" Margin="2">
+                        <ComboBoxItem>None</ComboBoxItem>
+                        <ComboBoxItem>RTS/CTS</ComboBoxItem>
+                        <ComboBoxItem>XON/XOFF</ComboBoxItem>
+                    </ComboBox>
 
                 </Grid>
-                <Button Name="ButtonOpen" Margin="5" Height="35" Content="打开"/>
+                <Button Name="ButtonOpen" Margin="5" Height="35" Content="打开" Click="ButtonOpen_Click"/>
                 <Button Name="ButtonPause" Margin="5" Height="35" Content="暂停接收"/>
                 <Label Content="-------接收设置--------"/>
                 <StackPanel Orientation="Vertical">
