@@ -12,3 +12,4 @@ F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.csproj.GenerateResource.Cache
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.exe
 F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.pdb
+F:\mine\Data\_soft\tool\SerialAssistant\NeucrackSerialPort_C#\NeucrackSerialPort\obj\Release\NeucrackSerialPort.csprojResolveAssemblyReference.cache
