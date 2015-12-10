@@ -218,5 +218,23 @@ namespace NeucrackSerialPort.model
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// 串口发送数据
+        /// </summary>
+        /// <param name="str"></param>
+        public bool SendDataUpdate(string str)
+        {
+            try
+            {
+                if (!IsOpen || str.Equals("") || str == null)//串口未打开或数据无效
+                    return false;
+                WriteLine(str);
+            }catch(Exception){
+
+                return false;
+            }
+            return true;
+        }
     }
 }

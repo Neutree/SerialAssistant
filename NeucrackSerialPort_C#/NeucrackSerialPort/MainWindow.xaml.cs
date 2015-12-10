@@ -17,6 +17,7 @@ using System.Management;
 
 using NeucrackSerialPort.model;
 using System.IO.Ports;
+using System.ComponentModel;
 
 namespace NeucrackSerialPort
 {
@@ -28,66 +29,41 @@ namespace NeucrackSerialPort
         private SerialPortModel mSerialPort;
         private bool mIsSerialOpen=false;//界面上标志的串口连接状态
         long mReceivedCount = 0, mSendCount = 0;
+        //读取数据线程 
+        Thread _readThread;
+        bool _keepReading;
+
+
+        /// <summary>
+        /// 窗口加载
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             SerialInit();
+
+            //添加事件响应
             this.Closing += delegate(object sender, System.ComponentModel.CancelEventArgs e)
             {
                 Properties.Settings.Default.BaudRate = SerialBaud.SelectedIndex;//保存当前设置的波特率
                 Properties.Settings.Default.Save();
             };
+            ButtonSendData.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                SendData(new TextRange(InputSendDataArea.Document.ContentStart, InputSendDataArea.Document.ContentEnd).Text);
+            };
+            ButtonClearSendArea.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                ClearSendDataArea();
+            };
         }
+
         
         
-        ///// <summary>
-        ///// 隐藏配置面变按钮单击事件
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Button_HideSettingPanel(object sender, RoutedEventArgs e)
-        //{
-        //    //if(SettingPanel.Width!=0)
-        //    //{
-        //    //    new Thread(() =>
-        //    //    {
-        //    //        this.Dispatcher.Invoke(new Action(() =>
-        //    //        {
-        //    //            HideSettingPanel();
-        //    //        }));
-        //    //    }).Start();
-        //    //}
-        //    //else
-        //    //{
-        //    //    new Thread(() =>
-        //    //    {
-        //    //        this.Dispatcher.Invoke(new Action(() =>
-        //    //        {
-        //    //            ShowSettingPanel();
-        //    //        }));
-        //    //    }).Start();
-        //    //}
-        //}
-
-        //private void HideSettingPanel()
-        //{
-        //    //mSetingPanelWidth = SettingPanel.Width;
-        //    //mSetingPanelMinWidth = SettingPanel.MinWidth;
-        //    //SettingPanel.MinWidth = 0;
-        //    //SettingPanel.Width = 0;
-        //    //thickMargin = DisplayPanel.Margin;
-        //    //DisplayPanel.Margin = new Thickness(10,0,10,0);
-        //    //ButtonHideSettingpanel.Content = ">>";
-        //}
-        //private void ShowSettingPanel()
-        //{
-        //    //SettingPanel.Width = mSetingPanelWidth;
-        //    //SettingPanel.MinWidth = mSetingPanelMinWidth;
-        //    //DisplayPanel.Margin = thickMargin;
-        //    //ButtonHideSettingpanel.Content = "<<";
-        //}
-
-
+      
+        /// <summary>
+        /// 串口初始化函数
+        /// </summary>
         private void SerialInit()
         {
             //串口相关操作对象定义
@@ -103,13 +79,20 @@ namespace NeucrackSerialPort
                 SerialPort.SelectedIndex = 0;
             SerialBaud.SelectedIndex = Properties.Settings.Default.BaudRate;//加载上一次使用的波特率
             //添加串口相关的事件函数
-            mSerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(SerialDataReceivedHandler);
+           // mSerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(SerialDataReceivedHandler);
 
         }
 
-        public delegate void UpdateBytesDelegate(byte[] data);  
+        /// <summary>
+        /// 串口接收事件函数//未使用，使用新的线程一直监视串口接收区
+        /// </summary>
+        /// <param name="data"></param>
+        public delegate void UpdateBytesDelegate(byte[] data);
+        public delegate void UpdateReceivedCount(long count);
         void SerialDataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
+
+            
             int length = mSerialPort.BytesToRead;
             byte[] data = new byte[length];
             mReceivedCount += length;
@@ -121,45 +104,59 @@ namespace NeucrackSerialPort
                     {
                         SetReceivedDataCount(mReceivedCount);
                     }));
-                }catch(Exception)
+                }
+                catch (Exception)
                 {
 
                 }
             }).Start();
+          //  Dispatcher.Invoke(new UpdateReceivedCount(SetReceivedDataCount), mReceivedCount);
             try
             {
                 for (int i = 0; i < length; i++)
                 {
                     data[i] = (byte)mSerialPort.ReadByte();
                 }
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return;
             }
             Dispatcher.Invoke(new UpdateBytesDelegate(UpdateBytesbox), data);
         }
-
+        public void RecievedFunc()
+        {
+ 
+        }
         
+        /// <summary>
+        /// 更新UI（richtextbox接收区域）
+        /// </summary>
+        /// <param name="data"></param>
         private void UpdateBytesbox(byte[] data)
         {
             if (IsStop)
             {
-               // mSerialPort.ReceiveDataUpdate(data);
+                mSerialPort.ReceiveDataUpdate(data);
             }
             else
             {
-                //txtRecData.AppendText(Port.ReceiveDataUpdate(data) + Environment.NewLine);
-              //  Paragraph p = (Paragraph)InputReceivedDataArea.Document.Blocks.FirstBlock;
-               // Run r = new Run(mSerialPort.ReceiveDataUpdate(data) + Environment.NewLine);
-                //r.Foreground = Brushes.Black;
-                //p.Inlines.Add(r);
-                InputReceivedDataArea.AppendText(mSerialPort.ReceiveDataUpdate(data));
-                InputReceivedDataArea.ScrollToEnd();
+                try
+                {
+                    //InputReceivedDataArea.AppendText(mSerialPort.ReceiveDataUpdate(data));
+                    //InputReceivedDataArea.ScrollToEnd();
+                    Paragraph p = (Paragraph)InputReceivedDataArea.Document.Blocks.FirstBlock;
+                    Run r = new Run(mSerialPort.ReceiveDataUpdate(data));
+                    //r.Foreground = Brushes.DarkRed;
+                    p.Inlines.Add(r);
+                    InputReceivedDataArea.ScrollToEnd();
+                }
+                catch (Exception) { }
             }
         }
 
         /// <summary>
-        /// 打开按钮单击事件
+        /// 打开串口按钮单击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -221,6 +218,10 @@ namespace NeucrackSerialPort
                     int indexComStart = SerialPort.Text.IndexOf('(')+1;
                     int indexComEnd = SerialPort.Text.IndexOf(')');
                     mSerialPort.Setting(SerialPort.Text.Substring(indexComStart,indexComEnd-indexComStart), int.Parse(SerialBaud.Text), int.Parse(SerialDataNum.Text), parity, stopBits, flowControl, 2048, 2048, 50, 50, "UTF-8");
+                    SerialStatus.Content = "已连接";
+                    _keepReading = true;
+                    _readThread = new Thread(ReadSerialPort);
+                    _readThread.Start();
                 }catch(Exception )
                 {
                     MessageBox.Show("参数有误！！","错误啦");
@@ -266,15 +267,89 @@ namespace NeucrackSerialPort
                         break;
                 }
                 ButtonOpen.Content = "打开";
+                SerialStatus.Content = "未连接-就绪";
+                _keepReading = false;//结束线程
                 mIsSerialOpen = false;
             }
 
         }
 
+        /// <summary>
+        /// 读取串口数据线程函数
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ReadSerialPort(object obj)
+        {
+            while (_keepReading)
+            {
+                if (mSerialPort.IsOpen)
+                {
+                    //byte[] readBuffer = new byte[mSerialPort.ReadBufferSize + 1];
+                    //try
+                    //{
+                    //    // If there are bytes available on the serial port,   
+                    //    // Read returns up to "count" bytes, but will not block (wait)   
+                    //    // for the remaining bytes. If there are no bytes available   
+                    //    // on the serial port, Read will block until at least one byte   
+                    //    // is available on the port, up until the ReadTimeout milliseconds   
+                    //    // have elapsed, at which time a TimeoutException will be thrown.   
+                    //    int count = mSerialPort.Read(readBuffer, 0, mSerialPort.ReadBufferSize);
+                    //    String SerialIn = System.Text.Encoding.ASCII.GetString(readBuffer, 0, count);
+                    //    //if (count != 0)
+                    //        //byteToHexStr(readBuffer);   
+                    //        //Thread(byteToHexStr(readBuffer, count));
+                        int length = mSerialPort.BytesToRead;
+                        byte[] data = new byte[length];
+                        mReceivedCount += length;
+                        //new Thread(() =>
+                        //{
+                        //try
+                        //{
+                        //    this.Dispatcher.BeginInvoke(new Action(() =>
+                        //    {
+                        //        SetReceivedDataCount(mReceivedCount);
+                        //    }));
+                        //}
+                        //catch (Exception)
+                        //{
+
+                        //}
+                        //}).Start();
+                        //    Dispatcher.Invoke(new UpdateReceivedCount(SetReceivedDataCount),mReceivedCount);
+                        try
+                        {
+                            for (int i = 0; i < length; i++)
+                            {
+                                data[i] = (byte)mSerialPort.ReadByte();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            return;
+                        }
+                    //BackgroundWorker _backgroundWorker = new BackgroundWorker();
+                    //_backgroundWorker.DoWork += UpdateBytesbox__;
+                    //_backgroundWorker.RunWorkerAsync(5000);
+                    //更新UI
+                    Dispatcher.Invoke(new UpdateReceivedCount(SetReceivedDataCount), mReceivedCount);
+                    Dispatcher.Invoke(new UpdateBytesDelegate(UpdateBytesbox), data);
+                    
+                }
+                else
+                {
+                    TimeSpan waitTime = new TimeSpan(0, 0, 0, 0, 50);
+                    Thread.Sleep(waitTime);
+                }
+            }   
+        }
+
+        /// <summary>
+        /// 变量，与控件绑定，用户选择是否停止显示接收到的数据
+        /// </summary>
         public bool IsStop { get; set; }
 
         /// <summary>
-        /// 重置发送、接收计数按钮单击事件
+        /// 重置发送、接收 计数 按钮单击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -316,7 +391,7 @@ namespace NeucrackSerialPort
             SerialReceivedDataCount.Content = mReceivedCount.ToString();
 
         }
-
+        public delegate void ClearReceivedArea();
         /// <summary>
         /// 清除接收显示按钮单击事件
         /// </summary>
@@ -324,20 +399,71 @@ namespace NeucrackSerialPort
         /// <param name="e"></param>
         private void ButtonClearReceivedArea_Click(object sender, RoutedEventArgs e)
         {
-            new Thread(() =>
-            {
-                try
-                {
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        InputReceivedDataArea.Document.Blocks.Clear();
-                    }));
-                }
-                catch (Exception)
-                {
+            //new Thread(() =>
+            //{
+            //    try
+            //    {
+            //        this.Dispatcher.Invoke(new Action(() =>
+            //        {
+            //            InputReceivedDataArea.Document.Blocks.Clear();
+            //        }));
+            //    }
+            //    catch (Exception)
+            //    {
 
-                }
-            }).Start();
+            //    }
+            //}).Start();
+            Dispatcher.Invoke(new ClearReceivedArea(clearTextBlock));
+
+        }
+
+        /// <summary>
+        /// 清除接收区域的所有数据
+        /// </summary>
+        private void clearTextBlock()
+        {
+
+            InputReceivedDataArea.Document.Blocks.Clear() ;//清除所有的block
+            InputReceivedDataArea.Document.Blocks.Add(new Paragraph());//创建新的block
+        }
+
+        /// <summary>
+        /// 发送按钮单击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendData(String str)
+        {
+            if (ButtonOpen.Content.Equals("打开"))//未打开
+            {
+                
+            }
+            if (mSerialPort.SendDataUpdate(str))
+            {
+                mSendCount+=str.Length;
+                SerialSendDataCount.Content=mSendCount.ToString();
+            }
+        }
+        /// <summary>
+        /// 单击清除发送区域按钮
+        /// </summary>
+        private void ClearSendDataArea()
+        {
+            InputSendDataArea.Document.Blocks.Clear();//清除发送区域
+        }
+
+        private void ButtonPause_Click(object sender, RoutedEventArgs e)
+        {
+            if(IsStop)
+            {
+                _keepReading = false;
+            }
+            else
+            {
+                _keepReading = true;
+                _readThread = new Thread(ReadSerialPort);
+                _readThread.Start();
+            }
         }
     }
 }
